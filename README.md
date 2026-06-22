@@ -4,11 +4,16 @@
 </div>
 
 <div align="center">
+  <a href="https://neurocipherx-student-success-dashboard.hf.space/" target="_blank">
+    <img src="https://img.shields.io/badge/🔴_Live_Demo-Hugging_Face-FF9D00?style=for-the-badge&logo=huggingface&logoColor=white" alt="Live Demo" />
+  </a>
+</div>
+<br/>
+<div align="center">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/XGBoost-150458?style=for-the-badge&logo=xgboost&logoColor=white" alt="XGBoost" />
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/SHAP-4479A1?style=for-the-badge&logo=python&logoColor=white" alt="SHAP" />
-  <img src="https://img.shields.io/badge/Status-Production_Ready-2ea44f?style=for-the-badge" alt="Status" />
 </div>
 
 <br/>
