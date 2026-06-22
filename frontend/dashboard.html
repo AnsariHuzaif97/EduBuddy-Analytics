@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVision Elite | World-Class AI Advisor</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Plotly for Gauge Chart -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            align-items: center;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logout-btn {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover { background: rgba(255,255,255,0.2); }
+        .sidebar { top: 64px; height: calc(100vh - 64px); }
+        .main-content { margin-top: 64px; }
+    </style>
+</head>
+<body class="dash-shell">
+
+    <header class="header">
+        <a href="index.html">
+            <span style="font-size: 1.5rem;">✨</span> EduBuddy
+        </a>
+        <a href="#" onclick="handleLogout(event)" class="logout-btn">Sign Out</a>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <p class="action-label">Dynamic Configuration</p>
+        
+        <!-- Academic Foundation -->
+        <div class="collapsible">
+            <div class="collapsible-header" onclick="toggleCollapsible('acad-content')">
+                <span>Academic Foundation</span>
+                <span>▼</span>
+            </div>
+            <div class="collapsible-content open" id="acad-content">
+                <div class="form-group">
+                    <label>Module Identity</label>
+                    <select id="code_module">
+                        <option value="AAA">AAA</option>
+                        <option value="BBB">BBB</option>
+                        <option value="CCC">CCC</option>
+                        <option value="DDD">DDD</option>
+                        <option value="EEE">EEE</option>
+                        <option value="FFF">FFF</option>
+                        <option value="GGG">GGG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Presentation Window</label>
+                    <select id="code_presentation">
+                        <option value="2013J">2013J</option>
+                        <option value="2014J">2014J</option>
+                        <option value="2013B">2013B</option>
+                        <option value="2014B">2014B</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Academic Standing</label>
+                    <select id="highest_education">
+                        <option value="HE Qualification">HE Qualification</option>
+                        <option value="A Level or Equivalent">A Level or Equivalent</option>
+                        <option value="Lower Than A Level">Lower Than A Level</option>
+                        <option value="Post Graduate Qualification">Post Graduate Qualification</option>
+                        <option value="No Formal quals">No Formal quals</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cumulative Credits: <span id="credits-val" class="value-display">60</span></label>
+                    <input type="range" id="studied_credits" min="30" max="600" step="30" value="60" oninput="document.getElementById('credits-val').innerText=this.value">
+                </div>
+            </div>
+        </div>
+
+        <!-- Demographic Context -->
+        <div class="collapsible" style="margin-top: 1rem;">
+            <div class="collapsible-header" onclick="toggleCollapsible('demo-content')">
+                <span>Demographic Context</span>
+                <span>▼</span>
+            </div>
+            <div class="collapsible-content" id="demo-content">
+                <div class="form-group">
+                    <label>Gender Profile</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="M" checked> M</label>
+                        <label><input type="radio" name="gender" value="F"> F</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Regional Context</label>
+                    <select id="region">
+                        <option value="East Anglian Region">East Anglian Region</option>
+                        <option value="Scotland">Scotland</option>
+                        <option value="North Western Region">North Western Region</option>
+                        <option value="South East Region">South East Region</option>
+                        <option value="West Midlands Region">West Midlands Region</option>
+                        <option value="Wales">Wales</option>
+                        <option value="North Region">North Region</option>
+                        <option value="South Region">South Region</option>
+                        <option value="Ireland">Ireland</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>IMD Index</label>
+                    <select id="imd_band">
+                        <option value="0-10%">0-10%</option>
+                        <option value="10-20%">10-20%</option>
+                        <option value="20-30%">20-30%</option>
+                        <option value="30-40%">30-40%</option>
+                        <option value="40-50%">40-50%</option>
+                        <option value="50-60%" selected>50-60%</option>
+                        <option value="60-70%">60-70%</option>
+                        <option value="70-80%">70-80%</option>
+                        <option value="80-90%">80-90%</option>
+                        <option value="90-100%">90-100%</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Life Stage</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="age" value="0-35" checked> 0-35</label>
+                        <label><input type="radio" name="age" value="35-55"> 35-55</label>
+                        <label><input type="radio" name="age" value="55<="> 55<=</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Functional Impediments</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="disability" value="N" checked> N</label>
+                        <label><input type="radio" name="disability" value="Y"> Y</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="action-label" style="margin-top: 1.5rem;">Behavioral Inputs</p>
+        <div class="form-group">
+            <label>LMS Interactive Clicks: <span id="clicks-val" class="value-display">400</span></label>
+            <input type="range" id="total_clicks" min="0" max="5000" step="1" value="400" oninput="document.getElementById('clicks-val').innerText=this.value">
+        </div>
+        <div class="form-group">
+            <label>Active Learning Days: <span id="days-val" class="value-display">25</span></label>
+            <input type="range" id="active_days" min="0" max="250" step="1" value="25" oninput="document.getElementById('days-val').innerText=this.value">
+        </div>
+        <div class="form-group">
+            <label>Term Engagement Window: <span id="span-val" class="value-display">60</span></label>
+            <input type="range" id="activity_span" min="0" max="300" step="1" value="60" oninput="document.getElementById('span-val').innerText=this.value">
+        </div>
+        <div class="form-group">
+            <label>Assessment Mastery (%): <span id="scores-val" class="value-display">65.0</span></label>
+            <input type="range" id="avg_assignment_score" min="0" max="100" step="0.1" value="65.0" oninput="document.getElementById('scores-val').innerText=this.value">
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <h1 class="hero-title">EduVision Elite</h1>
+        <p class="subtitle">Advanced Machine Learning Ecosystem for Academic Excellence</p>
+
+        <!-- TABS HEADER -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(event, 'vision')">Vision Portfolio</button>
+            <button class="tab" onclick="switchTab(event, 'simulate')">Predictive Lab</button>
+            <button class="tab" onclick="switchTab(event, 'telemetry')">AI Structural Telemetry</button>
+        </div>
+
+        <!-- TAB CONTENT: Vision Portfolio -->
+        <div id="vision" class="tab-content active">
+            <div class="grid-2">
+                <!-- Left Col -->
+                <div>
+                    <div class="premium-card" id="outlook-card">
+                        <p class="action-label" id="outlook-label">Success Probability Outlook</p>
+                        <div id="gauge-container"></div>
+                    </div>
+                    
+                    <p class="action-label">Habitual Convergence Analysis</p>
+                    <div class="grid-3">
+                        <div class="metric-box">
+                            <div class="metric-title">Course Focus</div>
+                            <div class="metric-value" id="m-focus">0</div>
+                            <div class="metric-delta" id="d-focus">+0</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-title">LMS Density</div>
+                            <div class="metric-value" id="m-lms">0</div>
+                            <div class="metric-delta" id="d-lms">+0</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-title">Mastery</div>
+                            <div class="metric-value" id="m-mastery">0%</div>
+                            <div class="metric-delta" id="d-mastery">+0.0</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Col -->
+                <div>
+                    <p class="action-label">Personalized Strategic Roadmap</p>
+                    <p style="margin-bottom: 1.5rem;">Timeline Remaining: <strong class="shimmer-text" id="roadmap-weeks">0 Production Weeks</strong></p>
+                    
+                    <div id="timeline-container">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 2rem 0;">
+                    <button class="btn-primary" onclick="downloadReport()">Download Strategic Briefing</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: Predictive Lab -->
+        <div id="simulate" class="tab-content">
+            <p class="action-label">Hypothesis Testing Environment</p>
+            <p class="subtitle" style="font-size: 0.9rem;">Modify behavioral variables to observe real-time probability shifts.</p>
+
+            <div class="grid-2">
+                <div>
+                    <div class="form-group">
+                        <label>Simulate Day Expansion: <span id="sim-days-val" class="value-display">0</span></label>
+                        <input type="range" id="sh_days" min="0" max="50" step="1" value="0" oninput="updateSimDisplay('sim-days-val', this.value); triggerSimulation();">
+                    </div>
+                    <div class="form-group">
+                        <label>Simulate Clicks Expansion: <span id="sim-clicks-val" class="value-display">0</span></label>
+                        <input type="range" id="sh_clicks" min="0" max="1000" step="1" value="0" oninput="updateSimDisplay('sim-clicks-val', this.value); triggerSimulation();">
+                    </div>
+                    <div class="form-group">
+                        <label>Simulate Mastery Gain (%): <span id="sim-scores-val" class="value-display">0.0</span></label>
+                        <input type="range" id="sh_scores" min="0" max="20" step="0.1" value="0" oninput="updateSimDisplay('sim-scores-val', this.value); triggerSimulation();">
+                    </div>
+                </div>
+                <div>
+                    <div class="premium-card sim-stat">
+                        <p class="action-label">Simulated Prediction</p>
+                        <p class="sim-value shimmer-text" id="sim-prediction">0.0%</p>
+                        <p style="opacity: 0.6;">Relative Impact: <span id="sim-impact">+0.0%</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT: AI Structural Telemetry -->
+        <div id="telemetry" class="tab-content">
+            <p class="action-label">SHAP Deep-Dive Telemetry</p>
+            <div class="premium-card" style="text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                <div id="telemetry-loader" class="loader"></div>
+                <img id="telemetry-plot" class="telemetry-img" style="display: none;" alt="SHAP Waterfall Plot">
+            </div>
+        </div>
+
+        <p style="text-align:center; opacity:0.3; font-size:0.8rem; letter-spacing:2px; margin-top: 4rem;">© 2026 EDUVISION ELITE | GLOBAL PERFORMANCE FRAMEWORK</p>
+    </main>
+
+    <script src="script.js?v=2"></script>
+</body>
+</html>
